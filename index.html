@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>indexed db test</title>
+</head>
+<body>
+  <h1>Indexed db capasity test</h1>
+  <div id="percentage"></div>
+  <div id="available"></div>
+</body>
+<script>
+  console.log('Hello!')
+  async function getData() {
+    if (navigator.storage && navigator.storage.estimate) {
+      const quota = await navigator.storage.estimate();
+      // quota.usage -> Number of bytes used.
+      // quota.quota -> Maximum number of bytes available.
+      const percentageUsed = (quota.usage / quota.quota) * 100;
+      console.log(`You've used ${percentageUsed}% of the available storage.`);
+      document.getElementById('percentage').innerHTML = `You've used ${percentageUsed}% of the available storage.`
+      const remaining = quota.quota - quota.usage;
+      console.log(`You can write up to ${remaining/1024/1024} more megabytes.`);
+      document.getElementById('available').innerHTML = `You can write up to ${remaining/1024/1024} more megabytes.`
+    }
+  }
+  getData()
+</script>
+</html>
